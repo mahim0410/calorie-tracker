@@ -1,0 +1,410 @@
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+input, button { font-family: inherit; font-size: inherit; }
+
+/* ── App Shell ── */
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: #0f172a;
+  position: relative;
+}
+
+/* ── Header ── */
+.app-header {
+  background: linear-gradient(135deg, #0f172a 0%, #1a2332 100%);
+  padding: 20px 16px 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.header-top h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #10b981, #34d399);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.offline-badge {
+  font-size: 0.65rem;
+  background: #ef4444;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 20px;
+  -webkit-text-fill-color: white;
+}
+
+/* ── Calorie Ring ── */
+.calorie-ring {
+  display: flex;
+  justify-content: center;
+  margin: 4px 0;
+}
+.ring-svg { width: 140px; height: 140px; }
+.macro-strip {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+/* ── Navigation ── */
+.app-nav {
+  display: flex;
+  background: #1e293b;
+  border-top: 1px solid #334155;
+  padding: 4px;
+  gap: 4px;
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+}
+.nav-btn {
+  flex: 1;
+  padding: 12px 8px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 0.95rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+.nav-btn.active {
+  background: #334155;
+  color: #10b981;
+}
+.nav-btn:not(.active):active { background: #2a3a4e; }
+
+/* ── Main Content ── */
+.app-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px;
+  scrollbar-width: thin;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  background: #334155;
+  color: #e2e8f0;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary {
+  background: #10b981;
+  color: white;
+}
+.btn-primary:active { background: #059669; }
+.btn-add {
+  background: #10b981;
+  color: white;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.btn-big {
+  width: 100%;
+  padding: 14px;
+  font-size: 1rem;
+}
+.btn-link {
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+.btn-delete {
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  align-self: flex-start;
+}
+
+/* ── Search ── */
+.search-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.search-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid #334155;
+  border-radius: 12px;
+  background: #1e293b;
+  color: #e2e8f0;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-input:focus { border-color: #10b981; }
+.search-input::placeholder { color: #475569; }
+
+.search-results h3 {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.count { color: #475569; font-weight: 400; }
+
+.food-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+.food-info { flex: 1; min-width: 0; }
+.food-name { font-size: 0.95rem; display: block; margin-bottom: 4px; }
+.brand { color: #64748b; font-size: 0.8rem; }
+.food-macros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 6px 0 2px;
+}
+.macro-chip {
+  font-size: 0.75rem;
+  background: #0f172a;
+  padding: 2px 8px;
+  border-radius: 6px;
+  color: #94a3b8;
+}
+.per-serving {
+  font-size: 0.7rem;
+  color: #475569;
+}
+.food-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.serving-input {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.serving-input input {
+  width: 52px;
+  padding: 6px 8px;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  background: #0f172a;
+  color: #e2e8f0;
+  text-align: center;
+  font-size: 0.85rem;
+}
+.serving-input .unit {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+.error-msg {
+  color: #f87171;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  background: #450a0a;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+/* ── Camera ── */
+.camera-capture { text-align: center; }
+.file-input { display: none; }
+.camera-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 160px;
+  border: 2px dashed #334155;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 20px;
+  color: #64748b;
+}
+.camera-label:active { border-color: #10b981; background: #1a2332; }
+.camera-icon { font-size: 2.5rem; }
+.camera-hint { font-size: 0.75rem; color: #475569; }
+
+.food-preview {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin: 12px 0;
+}
+.analyzing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  color: #10b981;
+  font-weight: 500;
+}
+.pulse-dot {
+  width: 10px;
+  height: 10px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.analysis-result {
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 8px;
+}
+.analysis-result h3 { font-size: 1.15rem; margin-bottom: 4px; }
+.analysis-result.error p { margin-bottom: 12px; }
+.confidence {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+.confidence-high { background: #064e3b; color: #6ee7b7; }
+.confidence-medium { background: #451a03; color: #fdba74; }
+.confidence-low { background: #450a0a; color: #fca5a5; }
+
+.analysis-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 12px 0;
+}
+.analysis-item {
+  text-align: center;
+  padding: 8px 4px;
+  background: #0f172a;
+  border-radius: 10px;
+}
+.analysis-value {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+.analysis-item.cal .analysis-value { color: #f59e0b; }
+.analysis-label {
+  font-size: 0.65rem;
+  color: #64748b;
+  text-transform: uppercase;
+}
+.portion-text {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-bottom: 12px;
+}
+
+/* ── Daily Log ── */
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.log-header h3 { font-size: 1rem; color: #94a3b8; }
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+.empty-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+.empty-title { font-size: 1.1rem; color: #64748b; margin-bottom: 6px; }
+.empty-hint { font-size: 0.85rem; color: #475569; line-height: 1.5; }
+
+.meal-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+.meal-info { flex: 1; }
+.meal-name-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2px;
+}
+.meal-name-row strong { font-size: 0.95rem; }
+.meal-cal { color: #f59e0b; font-weight: 600; font-size: 0.9rem; }
+.meal-macros {
+  display: flex;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin: 4px 0;
+}
+.meal-time {
+  font-size: 0.72rem;
+  color: #475569;
+}
+.meal-thumb { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; }
+.portion-text { font-size: 0.78rem; color: #64748b; }
+
+/* ── Scrollbar ── */
+.app-main::-webkit-scrollbar { width: 4px; }
+.app-main::-webkit-scrollbar-track { background: transparent; }
+.app-main::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
+/* ── Responsive ── */
+@media (min-width: 480px) {
+  .app { border-left: 1px solid #1e293b; border-right: 1px solid #1e293b; }
+}
